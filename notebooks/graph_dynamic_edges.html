@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Dynamic Cluster Graph</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<body>
+<div id="viz"></div>
+<script>
+// Example data
+const nodes = [
+  { id: "1876", count: 40 },
+  { id: "9620", count: 30 },
+  { id: "7138", count: 20 },
+  { id: "9778", count: 10 }
+];
+
+const links = [
+  { source: "1876", target: "9620", weight: 8 },
+  { source: "9620", target: "7138", weight: 3 },
+  { source: "7138", target: "9778", weight: 6 },
+  { source: "1876", target: "7138", weight: 2 }
+];
+
+const width = 800, height = 600;
+const svg = d3.select("#viz").append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+const simulation = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).distance(100).strength(0.8))
+  .force("charge", d3.forceManyBody().strength(-300))
+  .force("center", d3.forceCenter(width / 2, height / 2));
+
+const link = svg.selectAll("line")
+  .data(links)
+  .enter()
+  .append("line")
+  .attr("stroke-width", d => d.weight * 2)  // Dynamic edge width
+  .attr("stroke", "#999")
+  .attr("stroke-opacity", 0.6);
+
+const node = svg.selectAll("circle")
+  .data(nodes)
+  .enter()
+  .append("circle")
+  .attr("r", d => Math.sqrt(d.count) * 2)
+  .attr("fill", "steelblue")
+  .attr("opacity", 0.8)
+  .call(drag(simulation));
+
+const label = svg.selectAll("text")
+  .data(nodes)
+  .enter()
+  .append("text")
+  .text(d => d.id)
+  .attr("font-size", "10px")
+  .attr("dy", 3)
+  .attr("text-anchor", "middle");
+
+simulation.on("tick", () => {
+  link
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
+
+  node
+    .attr("cx", d => d.x)
+    .attr("cy", d => d.y);
+
+  label
+    .attr("x", d => d.x)
+    .attr("y", d => d.y);
+});
+
+function drag(simulation) {
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+  return d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+}
+</script>
+</body>
