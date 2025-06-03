@@ -59,6 +59,8 @@ NEO4J_USERNAME=<your-username>
 NEO4J_PASSWORD=<your-password>
 OPENAI_API_KEY=<your-openai-key>
 ```
+- For more information on obtaining an API key, see: [API Key Documentation](https://docs.google.com/document/d/1Js1Xj_NuuYC8x61zmEqURXLiyvDdytJYSfC8IAgBW6Q/edit?pli=1&tab=t.0)
+
 (You may omit any variables you do not need for your workshop session.)
 
 **Note:** `.env` is excluded from version control for your security.
@@ -67,7 +69,32 @@ OPENAI_API_KEY=<your-openai-key>
 
 ## Connecting to Neo4j AuraDB
 
-The workshop uses a prepopulated Neo4j AuraDB instance. Connection details will be provided by your instructor or company admin.
+For this workshop, you will need a Neo4j AuraDB instance. 
+
+**Primary Method: Neo4j AuraDB ProTrial**
+
+1. Go to [console.neo4j.io](https://console.neo4j.io/).
+2. Sign up or log in to your Neo4j Aura account.
+3. Create a new **Free Tier** or **ProTrial** instance. A ProTrial instance is recommended if available, as it provides more resources. Ensure GDS (Graph Data Science) is enabled or can be enabled on your instance.
+4. Once your instance is running, note down your connection URI, username, and password. You will need these for your `.env` file.
+
+**Alternative: Using the Provided Database Dump (Optional)**
+
+If you prefer to run a local Neo4j instance or need to restore the database to a specific state, a dump file is available. This can also be loaded into an AuraDB instance if needed.
+
+- **Download Link:** [Neo4j Dump File](https://drive.google.com/file/d/1e6E1E5trJObKK_yc6oFCCaiUcFSVmX1O/view?usp=sharing)
+
+**Instructions for loading the dump (example using `neo4j-admin load` for local instances):**
+
+1. Download the `.dump` file from the link above.
+2. Stop your local Neo4j instance.
+3. Run the load command (replace `your-database-name` and path to your dump file):
+   ```sh
+   neo4j-admin load --from=/path/to/your/downloaded.dump --database=your-database-name --force
+   ```
+4. Start your Neo4j instance.
+
+If you are using an AuraDB instance created as per the primary method, connection details (URI, username, password) will be available directly from the Aura console. Your instructor may also provide details for a shared instance.
 
 Test your connection by running the following code in a notebook cell:
 ```python
@@ -100,11 +127,11 @@ with driver.session() as session:
 
 ## Workshop Structure
 
-- **01_intro_to_rag_and_graphs.ipynb** – RAG overview, why graphs, simple pipeline
-- **02_neo4j_graph_basics.ipynb** – Neo4j nodes, relationships, properties, connection
-- **03_data_sources_and_quality.ipynb** – EDA, data quality, visualization
-- **04_graph_analytics_and_algorithms.ipynb** – Graph projection, analytics, visualization
-- **05_advanced_graphrag.ipynb** – Integrating Neo4j with LLMs, hybrid retrieval
+**Active Notebooks:**
+
+- `01_Get_To_Know_Your_Graph.ipynb` – Graph and data exploration basics
+- `02_Communities_and_KNN.ipynb` – Community detection, KNN, and graph analytics
+- `Advanced_GraphRAG_Workshop_Final.ipynb` – Advanced Graph RAG and analytical workflows
 
 ---
 
