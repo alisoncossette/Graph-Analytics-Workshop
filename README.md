@@ -1,4 +1,4 @@
-# Graph Analytics Workshop
+# Graph Intelligence Workshop
 
 Welcome to the **Graph Analytics Workshop**! This repository contains all materials, code, and instructions for hands-on exploration of advanced graph analytics, Retrieval Augmented Generation (RAG), and knowledge graphs using Neo4j and Python.
 
