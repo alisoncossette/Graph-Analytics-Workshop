@@ -23,7 +23,6 @@ Welcome to the **Graph Analytics Workshop**! This repository contains all materi
 ## Prerequisites
 
 - Basic familiarity with Python and Jupyter Notebooks
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (optional, if running locally)
 - A Neo4j AuraDB instance (connection details provided by the instructor/company)
 - Python 3.9+
 
